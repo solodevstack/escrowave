@@ -1,19 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 
 import "@/styles/globals.css";
 import SuiProvider from "@/components/provider/sui.provider";
 import { siteConfig } from "@/config/site.config";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { cn } from "@/lib/utils";
+import { fontVariables } from "@/lib/fonts";
+import { Header } from "@/components/shared/header";
 
 export const metadata: Metadata = {
   title: {
@@ -36,9 +28,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={cn(
+          "text-foreground group/body overscroll-none font-sans antialiased",
+          fontVariables
+        )}
       >
-        <SuiProvider>{children}</SuiProvider>
+        <SuiProvider>
+          <Header />
+          {children}
+        </SuiProvider>
       </body>
     </html>
   );
