@@ -5,8 +5,8 @@ import { talentsData } from "@/lib/constants";
 
 export default function Talents() {
   return (
-    <div className="flex-1 p-6">
-      <div className="grid w-full grid-cols-3 gap-8">
+    <div className="flex-1 py-4 lg:py-6">
+      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-8 xl:grid-cols-3">
         {talentsData.map((talent, index) => (
           <div
             key={index}
