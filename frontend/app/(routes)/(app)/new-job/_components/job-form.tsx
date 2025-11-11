@@ -73,7 +73,7 @@ export const JobForm = () => {
   }
 
   return (
-    <Wrapper size={"sm"} className="mx-0 max-w-[973px] px-0!">
+    <Wrapper size={"sm"} className="max-w-[973px] px-0!">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <h2 className="mx-auto text-center text-2xl font-semibold">
