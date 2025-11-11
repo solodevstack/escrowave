@@ -37,7 +37,9 @@ export const SignInButton = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage src={currentAccount.icon} />
+          <AvatarImage
+            src={String(genAvatar(currentAccount.address as string))}
+          />
           <AvatarFallback>EW</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
@@ -47,6 +49,8 @@ export const SignInButton = () => {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem>Launch App</DropdownMenuItem>
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => disconnect()}>
           Log Out
         </DropdownMenuItem>
@@ -61,7 +65,7 @@ export const SignInButton = () => {
         onClick={() => connect({ wallet: googleWallet })}
       >
         <FcGoogle className="size-5" />
-        <span>Sign In</span>
+        <span>Continue</span>
       </Button>
     )
   );
