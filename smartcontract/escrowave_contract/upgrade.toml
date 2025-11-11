@@ -1,0 +1,9 @@
+# Sui Move Package Upgrade Capabilities
+# This file tracks upgrade capabilities across different networks
+
+[environments.devnet]
+upgrade_cap = "0x002644d1fe5c4b50769fb86ec4672cc573ebe89ebde24b8720a7da236695c074"
+package_id = "0x9cf29371d361c8b2bffdfe7f3e87ad731e63548ed0ebe7063274f10b0c3afff2"
+network_rpc = "https://fullnode.devnet.sui.io:443"
+created_at = "2025-11-11T08:04:35.087Z"
+

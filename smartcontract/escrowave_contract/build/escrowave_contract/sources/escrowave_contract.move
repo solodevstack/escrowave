@@ -236,29 +236,6 @@ public fun complete_job(
     // Update status to COMPLETED
     escrow.status = STATUS_COMPLETED;
 }
-public fun dispute_job(
-    escrow: &mut Escrow,
-    ctx: &mut TxContext
-) {
-    // Only accepted freelancer can mark job as completed
-    let sender = ctx.sender();
-    
-    // Extract the accepted freelancer address from Option
-
-    assert!(option::is_some(&escrow.accepted_freelancer), ENotAuthorized);
-
-    let accepted_freelancer = *option::borrow(&escrow.accepted_freelancer);
-
-     let client = escrow.client;
-
-    assert!( sender == accepted_freelancer || sender == client,  ENotAuthorized);
-    
-    // Must be in ACCEPTED state
-    assert!(escrow.status == STATUS_ACCEPTED || escrow.status ==  STATUS_COMPLETED, EInvalidState);
-    
-    // Update status to COMPLETED
-    escrow.status = STATUS_DISPUTED;
-}
 
 public fun release_payment(
     escrow: &mut Escrow,
@@ -305,6 +282,4 @@ public fun release_payment(
         amount: payment_amount,
         timestamp: sui::clock::timestamp_ms(clock),
     });
-
-      
 }
