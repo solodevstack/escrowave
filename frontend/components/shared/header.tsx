@@ -11,7 +11,7 @@ import { Input } from "../ui/input";
 
 export const Header = () => {
   return (
-    <header className="sticky top-0 left-0 w-full py-2 md:py-4">
+    <header className="sticky top-0 left-0 z-50 w-full py-2 backdrop-blur-3xl md:py-4">
       <Wrapper size="lg" className="size-full">
         <nav className="flex items-center justify-between gap-10 py-2">
           <div className="w-full max-w-[180px] lg:max-w-[230px]">

@@ -59,13 +59,12 @@ export const SignInButton = () => {
   ) : (
     googleWallet && (
       <Button
-        variant={"secondary"}
         isLoading={isPending}
         loadingText="Please wait..."
         onClick={() => connect({ wallet: googleWallet })}
       >
         <FcGoogle className="size-5" />
-        <span>Continue</span>
+        <span>Sign In</span>
       </Button>
     )
   );

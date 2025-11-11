@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils";
 const wrapperVariants = cva("mx-auto w-full px-5 md:px-8", {
   variants: {
     size: {
-      default: "max-w-[1480px]",
-      sm: "max-w-[1224px]",
-      lg: "max-w-[1736px]",
+      default: "max-w-[1380px]",
+      sm: "max-w-[1124px]",
+      lg: "max-w-[1636px]",
     },
   },
   defaultVariants: {
