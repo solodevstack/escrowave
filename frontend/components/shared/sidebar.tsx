@@ -34,7 +34,7 @@ export const Sidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="bg-foreground/15 sticky top-26 h-max w-full max-w-xs rounded-3xl border px-6 py-10 backdrop-blur-lg">
+    <aside className="bg-foreground/15 sticky top-26 hidden h-max w-full max-w-[280px] rounded-3xl border px-6 py-10 backdrop-blur-lg md:block lg:max-w-xs">
       <div className="flex flex-col gap-2">
         {routes.map((route) => {
           const isActive = isActivePath(route.path, pathname);
