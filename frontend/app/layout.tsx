@@ -8,6 +8,7 @@ import { siteConfig } from "@/config/site.config";
 import { Header } from "@/components/shared/header";
 import SuiProvider from "@/components/provider/sui.provider";
 import Image from "next/image";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
@@ -35,6 +36,7 @@ export default function RootLayout({
           fontVariables,
         )}
       >
+        <Toaster richColors theme="dark" />
         <NextjsTopLoader showSpinner={false} color="var(--primary)" />
         <SuiProvider>
           <Header />
