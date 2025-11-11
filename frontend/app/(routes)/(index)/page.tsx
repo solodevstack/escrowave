@@ -28,7 +28,7 @@ export default function Home() {
 
         <div className="mt-10 grid w-full max-w-[878px] gap-4 sm:grid-cols-2 md:mt-20 md:grid-cols-4 md:gap-8">
           <div className="hidden md:flex" />
-          <div className="flex w-full flex-col gap-4 rounded-2xl border bg-[#FFFFFF26] p-4 backdrop-blur-lg">
+          <div className="bg-foreground/15 flex w-full flex-col gap-4 rounded-2xl border p-4 backdrop-blur-lg">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium uppercase">DEVELOPERS</p>
 
@@ -45,7 +45,7 @@ export default function Home() {
             <p className="text-base font-medium">export</p>
           </div>
 
-          <div className="flex w-full flex-col gap-4 rounded-2xl border bg-[#FFFFFF26] p-4 backdrop-blur-lg">
+          <div className="bg-foreground/15 flex w-full flex-col gap-4 rounded-2xl border p-4 backdrop-blur-lg">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium uppercase">WRITERS</p>
 
@@ -63,7 +63,7 @@ export default function Home() {
           </div>
           <div className="hidden md:flex" />
 
-          <div className="flex w-full flex-col gap-4 rounded-2xl border bg-[#FFFFFF26] p-4 backdrop-blur-lg">
+          <div className="bg-foreground/15 flex w-full flex-col gap-4 rounded-2xl border p-4 backdrop-blur-lg">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium uppercase">NFT ARTIST</p>
 
@@ -91,7 +91,7 @@ export default function Home() {
               Launch App
             </Link>
           </div>
-          <div className="flex w-full flex-col gap-4 rounded-2xl border bg-[#FFFFFF26] p-4 backdrop-blur-lg">
+          <div className="bg-foreground/15 flex w-full flex-col gap-4 rounded-2xl border p-4 backdrop-blur-lg">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium uppercase">MARKETERS</p>
 
@@ -109,7 +109,7 @@ export default function Home() {
           </div>
 
           <div className="hidden md:flex" />
-          <div className="flex w-full flex-col gap-4 rounded-2xl border bg-[#FFFFFF26] p-4 backdrop-blur-lg">
+          <div className="bg-foreground/15 flex w-full flex-col gap-4 rounded-2xl border p-4 backdrop-blur-lg">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium uppercase">AI</p>
 
@@ -125,7 +125,7 @@ export default function Home() {
 
             <p className="text-base font-medium">export</p>
           </div>
-          <div className="flex w-full flex-col gap-4 rounded-2xl border bg-[#FFFFFF26] p-4 backdrop-blur-lg">
+          <div className="bg-foreground/15 flex w-full flex-col gap-4 rounded-2xl border p-4 backdrop-blur-lg">
             <div className="flex items-center justify-between gap-4">
               <p className="text-sm font-medium uppercase">COMMUNITY MANAGER</p>
 

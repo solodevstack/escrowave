@@ -1,0 +1,98 @@
+export const talentsData = [
+  {
+    name: "Francis John",
+    position: "Web Developer",
+    jobsCompleted: 25,
+    bio: "I build beautiful web apps with React.js and Next.js.",
+  },
+  {
+    name: "Moses",
+    position: "NFT Artist",
+    jobsCompleted: 10,
+    bio: "I create NFT art using Adobe Illustrator and Blender.",
+  },
+  {
+    name: "Ibrahim",
+    position: "Community Manager",
+    jobsCompleted: 25,
+    bio: "I grow and manage online communities across all social platforms.",
+  },
+  {
+    name: "John Doe",
+    position: "Bot Developer",
+    jobsCompleted: 25,
+    bio: "I build smart trading bots with Python and Node.js.",
+  },
+  {
+    name: "Khalil",
+    position: "AI Developer",
+    jobsCompleted: 25,
+    bio: "I build AI tools that automate your daily tasks.",
+  },
+  {
+    name: "Francis",
+    position: "Telegram Sticker Designer",
+    jobsCompleted: 25,
+    bio: "I create unique sticker packs for Telegram groups.",
+  },
+  {
+    name: "Sophia Lee",
+    position: "Blockchain Engineer",
+    jobsCompleted: 18,
+    bio: "I develop smart contracts and dApps on Ethereum and Solana.",
+  },
+  {
+    name: "Amaka Okoro",
+    position: "UI/UX Designer",
+    jobsCompleted: 32,
+    bio: "I design user-friendly interfaces with Figma and Framer.",
+  },
+  {
+    name: "Victor Adams",
+    position: "Web3 Content Writer",
+    jobsCompleted: 20,
+    bio: "I write technical and marketing content for blockchain startups.",
+  },
+  {
+    name: "Aisha Bello",
+    position: "Smart Contract Auditor",
+    jobsCompleted: 15,
+    bio: "I review Solidity contracts for vulnerabilities and optimization.",
+  },
+  {
+    name: "David Mark",
+    position: "Frontend Engineer",
+    jobsCompleted: 27,
+    bio: "I specialize in responsive design and performance optimization.",
+  },
+  {
+    name: "Zainab",
+    position: "3D Animator",
+    jobsCompleted: 14,
+    bio: "I create 3D animations for NFTs and metaverse experiences.",
+  },
+  {
+    name: "Kelvin",
+    position: "Solidity Developer",
+    jobsCompleted: 22,
+    bio: "I write and deploy smart contracts with Hardhat and Foundry.",
+  },
+  {
+    name: "Nora",
+    position: "Growth Marketer",
+    jobsCompleted: 19,
+    bio: "I help startups grow through paid ads, SEO, and influencer campaigns.",
+  },
+  {
+    name: "Chris Paul",
+    position: "Data Analyst",
+    jobsCompleted: 21,
+    bio: "I extract insights from data using Python, SQL, and Power BI.",
+  },
+  {
+    name: "Lydia",
+    position: "Product Manager",
+    jobsCompleted: 17,
+    bio: "I plan, build, and ship digital products efficiently.",
+  },
+];

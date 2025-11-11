@@ -11,7 +11,7 @@ export default function AppLayout({
     <div className="flex-1">
       <Wrapper className="flex gap-8" size="lg">
         <Sidebar />
-        <main>{children}</main>
+        <main className="flex w-full flex-col">{children}</main>
       </Wrapper>
     </div>
   );
