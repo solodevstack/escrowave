@@ -17,11 +17,11 @@ export function assertValue<T>(
   return v;
 }
 
-export function genAvatar(address: string): string | null {
-  if (!address) return null;
+export function genAvatar(value: string): string | null {
+  if (!value) return null;
 
   return createAvatar(pixelArtNeutral, {
-    seed: address,
+    seed: value,
   }).toDataUri();
 }
 
@@ -30,4 +30,9 @@ export function formatAddr(str: string | undefined, n: number = 4): string {
   return str?.length > n
     ? str.slice(0, 6) + "..." + str.slice(str.length - n)
     : str;
+}
+
+export function isActivePath(path: string, pathname: string): boolean {
+  if (path === "/") return pathname === "/";
+  return pathname.startsWith(path);
 }

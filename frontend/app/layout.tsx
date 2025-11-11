@@ -7,6 +7,7 @@ import { fontVariables } from "@/lib/fonts";
 import { siteConfig } from "@/config/site.config";
 import { Header } from "@/components/shared/header";
 import SuiProvider from "@/components/provider/sui.provider";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: {
@@ -30,7 +31,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "text-foreground group/body overscroll-none font-sans antialiased",
+          "text-foreground group/body min-h-screen overscroll-none bg-[url('/background.jpg')] bg-cover bg-fixed bg-no-repeat font-sans antialiased",
           fontVariables,
         )}
       >
