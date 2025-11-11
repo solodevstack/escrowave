@@ -2,14 +2,16 @@ import Image from "next/image";
 
 import { genAvatar } from "@/lib/utils";
 import { talentsData } from "@/lib/constants";
+import Link from "next/link";
 
 export default function Talents() {
   return (
     <div className="flex-1 py-4 lg:py-6">
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 lg:gap-8 xl:grid-cols-3">
         {talentsData.map((talent, index) => (
-          <div
+          <Link
             key={index}
+            href={`/profile/${talent.address}`}
             className="flex flex-col gap-4 border-y border-white/50 bg-white/5 p-6 backdrop-blur-lg"
           >
             <div className="flex items-start justify-between gap-4">
@@ -23,7 +25,7 @@ export default function Talents() {
               <div className="flex flex-col items-center gap-1">
                 <div className="flex size-20 items-center rounded-full border bg-white/15 p-1">
                   <Image
-                    src={String(genAvatar(talent.name))}
+                    src={String(genAvatar(talent.address as string))}
                     alt={talent.name}
                     width={80}
                     height={80}
@@ -52,7 +54,7 @@ export default function Talents() {
                 className="size-6"
               />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
