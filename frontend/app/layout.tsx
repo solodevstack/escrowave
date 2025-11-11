@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
+import NextjsTopLoader from "nextjs-toploader";
 
 import "@/styles/globals.css";
-import SuiProvider from "@/components/provider/sui.provider";
-import { siteConfig } from "@/config/site.config";
 import { cn } from "@/lib/utils";
 import { fontVariables } from "@/lib/fonts";
+import { siteConfig } from "@/config/site.config";
 import { Header } from "@/components/shared/header";
+import SuiProvider from "@/components/provider/sui.provider";
 
 export const metadata: Metadata = {
   title: {
@@ -30,9 +31,10 @@ export default function RootLayout({
       <body
         className={cn(
           "text-foreground group/body overscroll-none font-sans antialiased",
-          fontVariables
+          fontVariables,
         )}
       >
+        <NextjsTopLoader showSpinner={false} color="var(--primary)" />
         <SuiProvider>
           <Header />
           {children}
