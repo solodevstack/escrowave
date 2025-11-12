@@ -104,7 +104,7 @@ public fun register_profile(
 }
 
 
- fun check_user(user_address : address, users : &EscrowaveRegistry) : (bool, u64){
+ public fun check_user(user_address : address, users : &EscrowaveRegistry) : (bool, u64){
         let mut i = 0;
         let num_users = vector::length(&users.profiles);
         while(i < num_users){
@@ -168,40 +168,3 @@ public fun update_profile(
     });
 }
 
-//     /// Updates an existing freelancer profile
-// public fun update_profile(
-//     registry: &mut EscrowaveRegistry,
-//     name: vector<u8>,
-//     pfp: vector<u8>,
-//     skills: vector<vector<u8>>,
-//     bio: vector<u8>,
-//     clock: &sui::clock::Clock,
-//     ctx: &mut TxContext
-// ) {
-//     let owner = ctx.sender();
-    
-//     // Check if user has a profile and get its index
-//     let (exists, index) = check_user(owner, registry);
-//     assert!(exists, ENotAuthorized);
-    
-//     // Get mutable reference to the profile
-//     let profile = vector::borrow_mut(&mut registry.profiles, index);
-    
-//     // Verify ownership
-//     assert!(profile.owner == owner, ENotAuthorized);
-    
-//     // Update profile fields
-//     profile.name = name;
-//     profile.pfp = pfp;
-//     profile.skills = skills;
-//     profile.bio = bio;
-    
-//     let timestamp = sui::clock::timestamp_ms(clock);
-    
-//     // Emit event
-//     event::emit(ProfileUpdated {
-//         profile_id: object::uid_to_inner(&profile.id),
-//         owner,
-//         timestamp,
-//     });
-// }

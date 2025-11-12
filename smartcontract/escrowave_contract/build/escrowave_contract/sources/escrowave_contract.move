@@ -4,6 +4,9 @@ module escrowave_contract::escrowave_contract;
     use sui::balance::{Self, Balance};
     use sui::sui::SUI;
     use sui::event;
+    use escrowave_contract::escrowave_profile::check_user;
+     use escrowave_contract::escrowave_profile::{Self, EscrowaveRegistry};
+      
 
 
 
@@ -145,6 +148,7 @@ module escrowave_contract::escrowave_contract;
     transfer::share_object(escrow);
 }
     public fun place_bid(
+        registry: &EscrowaveRegistry,
         escrow: &mut Escrow,
         price: u64,
         description: vector<u8>,
@@ -156,8 +160,10 @@ module escrowave_contract::escrowave_contract;
         // Only allow bids in PENDING state
         assert!(escrow.status == STATUS_PENDING, EInvalidState);
         assert!(freelancer != escrow.client, ENotAuthorized);
-        
-        
+
+       let (client_has_profile, _) = check_user(freelancer, registry);
+       
+         assert!(client_has_profile, ENotAuthorized);
         
         // Check if this freelancer already placed a bid
         let bids_len = vector::length(&escrow.bids);
