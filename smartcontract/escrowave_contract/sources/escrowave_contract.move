@@ -4,6 +4,7 @@ module escrowave_contract::escrowave_contract;
     use sui::balance::{Self, Balance};
     use sui::sui::SUI;
     use sui::event;
+ 
 
 
 
@@ -156,6 +157,8 @@ module escrowave_contract::escrowave_contract;
         // Only allow bids in PENDING state
         assert!(escrow.status == STATUS_PENDING, EInvalidState);
         assert!(freelancer != escrow.client, ENotAuthorized);
+
+       
         
         
         
