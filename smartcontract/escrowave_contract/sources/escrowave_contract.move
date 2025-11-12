@@ -55,6 +55,18 @@ module escrowave_contract::escrowave_contract;
     }
 
     //EMIT EVENTS
+    public struct FreelancerRefunded has copy, drop {
+    escrow_id: ID,
+    client: address,
+    amount: u64,
+    timestamp: u64,
+    }
+    public struct ClientRefunded has copy, drop {
+        escrow_id: ID,
+        client: address,
+        amount: u64,
+        timestamp: u64,
+    }
     public struct EscrowCreated has copy, drop {
         escrow_id: ID,
         client: address,
@@ -143,6 +155,9 @@ module escrowave_contract::escrowave_contract;
         
         // Only allow bids in PENDING state
         assert!(escrow.status == STATUS_PENDING, EInvalidState);
+        assert!(freelancer != escrow.client, ENotAuthorized);
+        
+        
         
         // Check if this freelancer already placed a bid
         let bids_len = vector::length(&escrow.bids);
@@ -162,6 +177,8 @@ module escrowave_contract::escrowave_contract;
             timestamp,
         };
         assert!(price <= escrow.budget, EInsufficientFunds);
+       
+       
 
         vector::push_back(&mut escrow.bids, bid);
 
@@ -315,12 +332,7 @@ public fun release_payment(
     }
 
 
-public struct ClientRefunded has copy, drop {
-    escrow_id: ID,
-    client: address,
-    amount: u64,
-    timestamp: u64,
-}
+
 
 public fun refund_client(
     escrow: &mut Escrow,
@@ -355,12 +367,6 @@ public fun refund_client(
     });
 }
 
-public struct FreelancerRefunded has copy, drop {
-    escrow_id: ID,
-    client: address,
-    amount: u64,
-    timestamp: u64,
-}
 
 
   public fun refund_freelancer(
@@ -386,7 +392,7 @@ public struct FreelancerRefunded has copy, drop {
     transfer::public_transfer(refund_coin, accepted_freelancer);
     
     // Update status to resolved with client refunded
-    escrow.status = STATUS_RESOLVED_CLIENT_REFUNDED;
+    escrow.status = STATUS_RESOLVED_FREELANCER_REFUNDED;
     
     // Emit refund event
     event::emit(FreelancerRefunded {
