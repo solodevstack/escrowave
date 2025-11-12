@@ -27,8 +27,9 @@ module escrowave_contract::escrowave_contract;
     const STATUS_ACCEPTED: u8 = 1;     
     const STATUS_COMPLETED: u8 = 2;    
     const STATUS_DISPUTED: u8 = 3; 
-    const STATUS_RESOLVED: u8 = 4;
-    const STATUS_RELEASED: u8 = 5;
+    const STATUS_RESOLVED_CLIENT_REFUNDED: u8 = 4;
+    const STATUS_RESOLVED_FREELANCER_REFUNDED: u8 = 5;
+    const STATUS_RELEASED: u8 = 6;
   
 
   public struct Escrow has key, store {
@@ -85,51 +86,52 @@ module escrowave_contract::escrowave_contract;
 }
 
     public fun create_escrow(
-        job_title: vector<u8>,
-        job_description: vector<u8>,
-        payment: Coin<SUI>,
-        custodian: address,
-        clock: &sui::clock::Clock,
-        ctx: &mut TxContext
-    ) {
-        let client = ctx.sender();
-        let budget = coin::value(&payment);
-        let timestamp = sui::clock::timestamp_ms(clock);
-        
-        let escrow_uid = object::new(ctx);
-        let escrow_id = object::uid_to_inner(&escrow_uid);
+    job_title: vector<u8>,
+    job_description: vector<u8>,
+    payment_amount: u64,
+    custodian: address,
+    payment_coin: &mut Coin<SUI>,
+    clock: &sui::clock::Clock,
+    ctx: &mut TxContext
+) {
+    let client = ctx.sender();
+    
+    // Split the specified amount from the payment coin
+    let payment = coin::split(payment_coin, payment_amount, ctx);
+    
+    let timestamp = sui::clock::timestamp_ms(clock);
+    
+    let escrow_uid = object::new(ctx);
+    let escrow_id = object::uid_to_inner(&escrow_uid);
 
-        let escrow = Escrow {
-            id: escrow_uid,
-            job_title,
-            client,
-            custodian,
-            job_description,
-            budget,
-            balance: coin::into_balance(payment),
-            status: STATUS_PENDING,
-            bids: vector::empty(),
-            accepted_freelancer: option::none(),
-            accepted_price: 0,
-            created_at: timestamp,
-        };
+    let escrow = Escrow {
+        id: escrow_uid,
+        job_title,
+        client,
+        custodian,
+        job_description,
+        budget: payment_amount,
+        balance: coin::into_balance(payment),
+        status: STATUS_PENDING,
+        bids: vector::empty(),
+        accepted_freelancer: option::none(),
+        accepted_price: 0,
+        created_at: timestamp,
+    };
 
-        // Emit creation event
-        event::emit(EscrowCreated {
-            escrow_id,
-            client,
-            custodian,
-            budget,
-            job_description,
-            timestamp,
-        });
+    // Emit creation event
+    event::emit(EscrowCreated {
+        escrow_id,
+        client,
+        custodian,
+        budget: payment_amount,
+        job_description,
+        timestamp,
+    });
 
-        // Transfer escrow object to shared ownership
-      
-        transfer::share_object(
-            escrow,     
-        )
-    }
+    // Transfer escrow object to shared ownership
+    transfer::share_object(escrow);
+}
     public fun place_bid(
         escrow: &mut Escrow,
         price: u64,
@@ -159,6 +161,7 @@ module escrowave_contract::escrowave_contract;
             description,
             timestamp,
         };
+        assert!(price <= escrow.budget, EInsufficientFunds);
 
         vector::push_back(&mut escrow.bids, bid);
 
@@ -236,29 +239,7 @@ public fun complete_job(
     // Update status to COMPLETED
     escrow.status = STATUS_COMPLETED;
 }
-public fun dispute_job(
-    escrow: &mut Escrow,
-    ctx: &mut TxContext
-) {
-    // Only accepted freelancer can mark job as completed
-    let sender = ctx.sender();
-    
-    // Extract the accepted freelancer address from Option
 
-    assert!(option::is_some(&escrow.accepted_freelancer), ENotAuthorized);
-
-    let accepted_freelancer = *option::borrow(&escrow.accepted_freelancer);
-
-     let client = escrow.client;
-
-    assert!( sender == accepted_freelancer || sender == client,  ENotAuthorized);
-    
-    // Must be in ACCEPTED state
-    assert!(escrow.status == STATUS_ACCEPTED || escrow.status ==  STATUS_COMPLETED, EInvalidState);
-    
-    // Update status to COMPLETED
-    escrow.status = STATUS_DISPUTED;
-}
 
 public fun release_payment(
     escrow: &mut Escrow,
@@ -308,3 +289,111 @@ public fun release_payment(
 
       
 }
+
+    public fun dispute_job(
+        escrow: &mut Escrow,
+        ctx: &mut TxContext
+    ) {
+        // Only accepted freelancer can mark job as completed
+        let sender = ctx.sender();
+        
+        // Extract the accepted freelancer address from Option
+
+        assert!(option::is_some(&escrow.accepted_freelancer), ENotAuthorized);
+
+        let accepted_freelancer = *option::borrow(&escrow.accepted_freelancer);
+
+        let client = escrow.client;
+
+        assert!( sender == accepted_freelancer || sender == client,  ENotAuthorized);
+        
+        // Must be in ACCEPTED state
+        assert!(escrow.status == STATUS_ACCEPTED || escrow.status ==  STATUS_COMPLETED, EInvalidState);
+        
+        // Update status to COMPLETED
+        escrow.status = STATUS_DISPUTED;
+    }
+
+
+public struct ClientRefunded has copy, drop {
+    escrow_id: ID,
+    client: address,
+    amount: u64,
+    timestamp: u64,
+}
+
+public fun refund_client(
+    escrow: &mut Escrow,
+    clock: &sui::clock::Clock,
+    ctx: &mut TxContext,
+) {
+    let sender = ctx.sender();
+    
+    // Only custodian can execute refund
+    assert!(sender == escrow.custodian, ENotAuthorized);
+    
+    // Must be in DISPUTED state
+    assert!(escrow.status == STATUS_DISPUTED, ENotInDisputeState);
+    
+    // Withdraw all balance
+    let refund_amount = balance::value(&escrow.balance);
+    let refund_balance = balance::withdraw_all(&mut escrow.balance);
+    let refund_coin = coin::from_balance(refund_balance, ctx);
+    
+    // Transfer all funds to client
+    transfer::public_transfer(refund_coin, escrow.client);
+    
+    // Update status to resolved with client refunded
+    escrow.status = STATUS_RESOLVED_CLIENT_REFUNDED;
+    
+    // Emit refund event
+    event::emit(ClientRefunded {
+        escrow_id: object::uid_to_inner(&escrow.id),
+        client: escrow.client,
+        amount: refund_amount,
+        timestamp: sui::clock::timestamp_ms(clock),
+    });
+}
+
+public struct FreelancerRefunded has copy, drop {
+    escrow_id: ID,
+    client: address,
+    amount: u64,
+    timestamp: u64,
+}
+
+
+  public fun refund_freelancer(
+    escrow: &mut Escrow,
+    clock: &sui::clock::Clock,
+    ctx: &mut TxContext,
+) {
+    let sender = ctx.sender();
+    
+    // Only custodian can execute refund
+    assert!(sender == escrow.custodian, ENotAuthorized);
+    
+    // Must be in DISPUTED state
+    assert!(escrow.status == STATUS_DISPUTED, ENotInDisputeState);
+    
+    // Withdraw all balance
+    let refund_amount = balance::value(&escrow.balance);
+    let refund_balance = balance::withdraw_all(&mut escrow.balance);
+    let refund_coin = coin::from_balance(refund_balance, ctx);
+     let accepted_freelancer = *option::borrow(&escrow.accepted_freelancer);
+    
+    // Transfer all funds to client
+    transfer::public_transfer(refund_coin, accepted_freelancer);
+    
+    // Update status to resolved with client refunded
+    escrow.status = STATUS_RESOLVED_CLIENT_REFUNDED;
+    
+    // Emit refund event
+    event::emit(FreelancerRefunded {
+        escrow_id: object::uid_to_inner(&escrow.id),
+        client: escrow.client,
+        amount: refund_amount,
+        timestamp: sui::clock::timestamp_ms(clock),
+    });
+}
+  
