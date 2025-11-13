@@ -16,7 +16,7 @@ module escrowave_contract::escrowave_contract;
     const EInvalidState: u64 = 2;
     const EBidAlreadyExists: u64 = 3;
     const ENoFreelancerAccepted: u64 = 4;
-    const EAlreadyAccepted: u64 = 5;
+    const EOverBiddedPrice: u64 = 5;
     const ENotInDisputeState: u64 = 6;
     const EInsufficientFunds: u64 = 7;
 
@@ -182,7 +182,7 @@ module escrowave_contract::escrowave_contract;
             description,
             timestamp,
         };
-        assert!(price <= escrow.budget, EInsufficientFunds);
+        assert!(price <= escrow.budget, EOverBiddedPrice);
        
        
 

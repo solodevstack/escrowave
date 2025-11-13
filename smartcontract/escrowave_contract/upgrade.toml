@@ -2,8 +2,8 @@
 # This file tracks upgrade capabilities across different networks
 
 [environments.devnet]
-upgrade_cap = "0x5cc0c6abe44361317519c41e8eb404cc168df03c374b6f6faa30fc04d15f3f87"
-package_id = "0xcfa1a36cca6c10c77967b85763aed09b73360f7683eadeafdc6480dd21e254ec"
+upgrade_cap = "0x250e0471b1734834d52da8c6df166a0c7cafd5a4b8a8f643dbb6c8f63c05ac54"
+package_id = "0xf30d3fe4eb794cbe8aeb63d19314fb217ba03f59f8e22fdb4ff43813536ac8f4"
 network_rpc = "https://fullnode.devnet.sui.io:443"
-created_at = "2025-11-12T20:50:02.777Z"
+created_at = "2025-11-13T06:55:44.356Z"
 
