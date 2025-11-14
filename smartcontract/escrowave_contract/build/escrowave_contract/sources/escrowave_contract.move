@@ -16,7 +16,7 @@ module escrowave_contract::escrowave_contract;
     const EInvalidState: u64 = 2;
     const EBidAlreadyExists: u64 = 3;
     const ENoFreelancerAccepted: u64 = 4;
-    const EAlreadyAccepted: u64 = 5;
+    const EOverBiddedPrice: u64 = 5;
     const ENotInDisputeState: u64 = 6;
     const EInsufficientFunds: u64 = 7;
 
@@ -182,7 +182,7 @@ module escrowave_contract::escrowave_contract;
             description,
             timestamp,
         };
-        assert!(price <= escrow.budget, EInsufficientFunds);
+        assert!(price <= escrow.budget, EOverBiddedPrice);
        
        
 
@@ -409,3 +409,13 @@ public fun refund_client(
     });
 }
   
+public fun get_client(escrow: &Escrow): address {
+    escrow.client
+}
+
+public fun get_custodian(escrow: &Escrow): address {
+    escrow.custodian
+}
+public fun get_status(escrow: &Escrow): u8 {
+    escrow.status
+}
