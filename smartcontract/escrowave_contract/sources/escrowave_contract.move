@@ -409,3 +409,13 @@ public fun refund_client(
     });
 }
   
+public fun get_client(escrow: &Escrow): address {
+    escrow.client
+}
+
+public fun get_custodian(escrow: &Escrow): address {
+    escrow.custodian
+}
+public fun get_status(escrow: &Escrow): u8 {
+    escrow.status
+}
